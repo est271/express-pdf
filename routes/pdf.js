@@ -11,7 +11,9 @@ router.post('/', (req, res) => {
   // If you use 'inline' here it will automatically open the PDF
   res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"')
   res.setHeader('Content-type', 'application/pdf')
-  const content = req.body.content
+  // Strip carriage return
+  let regex = /\r/g
+  const content = req.body.content.replace(regex, '')
   doc.y = 300
   doc.text(content, 50, 50)
   doc.pipe(res)
